@@ -2,6 +2,7 @@
 
 import mongoose, {Document} from "mongoose";
 
+
 export interface Iuser extends Document {
     id?: mongoose.Types.ObjectId;
     fullName: string;
@@ -9,12 +10,16 @@ export interface Iuser extends Document {
     email: string;
     password?: string;
     verificationCode: number;
+    verifyExpiry: Date;
     isVerified: boolean;
     refreshToken?: string;
     coverImage?: string;
     avatar: string;
     watchBlogs?: Array<mongoose.Schema.Types.ObjectId>[];
     tags: string[];
+    isPasswordValid(password:string): Promise<boolean>;
+    genAccessToken(): Promise<string>;
+    genRefreshToken(): Promise<string>;
 }
 
 export interface Iblog extends Document {
@@ -49,4 +54,5 @@ export interface Ifeedback extends Icomment{
 export type StatusCodeType = "200" | "201" | "202" | "204" | "400" | "401" | "402" | "404" | "403" | "415" | "500" | number;
 
 export type StatusType = "OK" | "Created" | "Accepted" | "No Content" | "Bad Request" | "Unauthorized" | "Payment Required" | "Forbidden" | "Not Found" | "Unsupported Media Type" | "Internal Server Error";
-export type FeedBackType = "Like" | "Love" | "Clamp"  | "DisLike"
+export type FeedBackType = "Like" | "Love" | "Clamp"  | "DisLike";
+

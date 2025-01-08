@@ -32,6 +32,10 @@ const userSchema = new Schema<Iuser>({
         type: Number,
         required: true,
     },
+    verifyExpiry: {
+        type: Date,
+        required: true,
+    },
     isVerified: {
         type: Boolean,
         default: false,
@@ -48,7 +52,6 @@ const userSchema = new Schema<Iuser>({
     tags: [
         {
             type: String,
-            required: true,
             trim: true,
             maxlength: [10, "Tags is too long"],
         }
@@ -66,19 +69,20 @@ const userSchema = new Schema<Iuser>({
 
 
 userSchema.pre("save",  async function (next) {
-     if (this.isModified("password") || this.password === "") {
+     if (!this.isModified("password")) {
          return next();
      }
 
     this.password = await bcrypt.hash(this.password || "", 10);
-     next();
+    return next();
 });
 
 userSchema.methods.isPasswordValid = function (password: string) {
     return bcrypt.compare(password, this.password);
 }
 
-userSchema.methods.accessToken = function () {
+
+userSchema.methods.genAccessToken = function () {
      return jwt.sign({
          id: this._id,
          email: this.email,
@@ -86,7 +90,7 @@ userSchema.methods.accessToken = function () {
      }, process.env.JWT_SECURE_CODE_ACCESSTOKEN || "", {expiresIn: "15d"})
 }
 
-userSchema.methods.refreshToken = function () {
+userSchema.methods.genRefreshToken = function () {
      return jwt.sign({
          id: this._id,
      }, process.env.JWT_SECURE_CODE_REFRESHTOKEN || "", {expiresIn: "1d"})

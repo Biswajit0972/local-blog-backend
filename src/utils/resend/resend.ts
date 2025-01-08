@@ -1,18 +1,18 @@
 import { Resend } from "resend";
 import {ErrorResponse} from "../ErrorResponse/errorResponse";
-import {OTP} from "../OTP/otp";
+
 
 const resend = new Resend(process.env.resend_api_key);
 
 
-export const resendEmail  = async (userEmail: string) => {
-    const otp = OTP();
+export const resendEmail  = async (userEmail: string, otp: number) => {
+
     const textBody = htmlBody(otp);
 
     const { data, error } = await resend.emails.send({
         from: "Acme <onboarding@resend.dev>",
         to: [userEmail],
-        subject: "hello world",
+        subject: "Verify your account",
         html: textBody,
     });
 
@@ -23,7 +23,7 @@ export const resendEmail  = async (userEmail: string) => {
     return data;
 }
 
-function htmlBody (otp:string) {
+function htmlBody (otp:number) {
   return  `<div style="font-family: Arial, sans-serif; color: #333;">
     <h2 style="color: #007bff;">Account Verification</h2>
     <p>Dear User,</p>
