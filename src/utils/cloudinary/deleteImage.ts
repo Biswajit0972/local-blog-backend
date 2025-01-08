@@ -10,5 +10,6 @@ export const deleteImageCloudinary = async (publicName: string) => {
         return true;
     }catch (error: any) {
         console.log(error)
+        return false;
     }
 }
