@@ -62,6 +62,9 @@ const userSchema = new Schema<Iuser>({
     avatar: {
         type: String,
         required: true,
+    },
+    bio: {
+        type: String,
     }
 }, {
     timestamps: true

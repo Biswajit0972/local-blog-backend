@@ -16,6 +16,7 @@ export interface Iuser extends Document {
     coverImage?: string;
     avatar: string;
     watchBlogs?: Array<mongoose.Schema.Types.ObjectId>[];
+    bio?: string;
     tags: string[];
     isPasswordValid(password:string): Promise<boolean>;
     genAccessToken(): Promise<string>;
