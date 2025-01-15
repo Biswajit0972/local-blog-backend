@@ -52,8 +52,6 @@ const userSchema = new Schema<Iuser>({
     tags: [
         {
             type: String,
-            trim: true,
-            maxlength: [10, "Tags is too long"],
         }
     ],
     coverImage: {

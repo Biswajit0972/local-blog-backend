@@ -2,8 +2,12 @@ import {ErrorResponse} from "../../utils/ErrorResponse/errorResponse";
 import {ApiResponse} from "../../utils/ApiResponse/apiresponse";
 import jwt, {VerifyOptions} from "jsonwebtoken";
 import {verifyToken} from "../../utils/type/type";
+
+const isPublicPath = ["/sign-in", "/sign-out", "/sign-up"];
 export const authHandeler = async (req:any, res:any, next:any ) => {
 try{
+
+
     const accessToken = req.cookies["accessToken"];
     if (!accessToken) {
         throw new ErrorResponse("Invalid accessToken", "401", "Unauthorized")

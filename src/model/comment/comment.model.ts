@@ -22,4 +22,4 @@ const CommentSchema = new Schema<Icomment>({
 
 CommentSchema.plugin(aggregatePaginate);
 
-const CommentModel = mongoose.model<Icomment>("comments", CommentSchema);
+export const CommentModel = mongoose.model<Icomment>("comments", CommentSchema);
